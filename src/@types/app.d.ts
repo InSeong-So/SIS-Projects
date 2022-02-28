@@ -1,6 +1,6 @@
 declare module 'app' {
   export interface TodoEntity {
-    id: number;
+    id: string;
     text: string;
     proceeding: boolean;
     completed: boolean;
@@ -16,6 +16,7 @@ declare module 'app' {
 
 declare module 'presentor' {
   export interface TodoProps {
+    title: string;
     todos: TodoEntity[];
     send: Sender<any>;
   }
