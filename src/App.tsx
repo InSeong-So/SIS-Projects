@@ -1,4 +1,4 @@
-import StyledCalendar from './presentor/Calendar';
+// import StyledCalendar from './presentor/Calendar';
 import Footer from './presentor/components/Footer';
 import Header from './presentor/components/Header';
 import MainSection from './presentor/components/MainSection';
@@ -9,7 +9,7 @@ function App() {
     <>
       <Header />
       <MainSection>
-        <StyledCalendar />
+        {/* <StyledCalendar /> */}
         <TodoList />
       </MainSection>
       <Footer />

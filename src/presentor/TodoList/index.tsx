@@ -1,12 +1,13 @@
 import { Box, Button } from '@mui/material';
 import { useMachine } from '@xstate/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { todoMachine } from '../../@machine/TodoMachine';
 import Spinner from '../components/Spinner';
-import Todo from '../Todo';
+import Todos from '../Todos';
 import * as Styled from './TodoList.styles';
 
 const TodoList = () => {
+  const inputRef = useRef<HTMLDivElement>(null);
   const [openInput, setOpenInput] = useState(false);
   const [{ context }, send] = useMachine(todoMachine);
 
@@ -19,17 +20,11 @@ const TodoList = () => {
     send('FETCH');
   }, [send]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    send({ type: 'UPDATE_NEW_TODO', value: event.target.value });
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Enter') return;
-    send({ type: 'ADD_TODO' });
-  };
-
   const handleClick = () => {
+    send({ type: 'UPDATE_NEW_TODO', value: inputRef.current?.textContent });
     send({ type: 'ADD_TODO' });
+
+    (inputRef.current as HTMLDivElement).textContent = '';
   };
 
   if (showFlashScreen) return <Spinner />;
@@ -38,31 +33,24 @@ const TodoList = () => {
     <Styled.TodoListWrapper>
       <Styled.TodoInputWrapper>
         <Styled.TodoInputBoxWrapper component="div">
-          <Styled.TodoInput contentEditable={true}></Styled.TodoInput>
-          <Button>Save</Button>
+          <Styled.TodoInput
+            ref={inputRef}
+            suppressContentEditableWarning={true}
+            contentEditable={true}
+          ></Styled.TodoInput>
+          <Button onClick={handleClick}>Save</Button>
         </Styled.TodoInputBoxWrapper>
-        {/* <input
-          type="text"
-          value={context.newTodo}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          placeholder="What needs to be done?"
-        />
-        <button onClick={handleClick}>Add Todo</button> */}
       </Styled.TodoInputWrapper>
       <Styled.TodosWrapper>
-        <div>
-          <Styled.TodoTitle>Todos</Styled.TodoTitle>
-          <Todo todos={incompleteTodos} send={send} />
-        </div>
-        <div>
-          <Styled.TodoTitle>Proceeding</Styled.TodoTitle>
-          <Todo todos={proceedingTodos} send={send} />
-        </div>
-        <div>
-          <Styled.TodoTitle>Completed</Styled.TodoTitle>
-          <Todo todos={completedTodos} send={send} />
-        </div>
+        <Styled.TodosBox>
+          <Todos title="Todos" todos={incompleteTodos} send={send} />
+        </Styled.TodosBox>
+        <Styled.TodosBox>
+          <Todos title="Proceeding" todos={proceedingTodos} send={send} />
+        </Styled.TodosBox>
+        <Styled.TodosBox>
+          <Todos title="Completed" todos={completedTodos} send={send} />
+        </Styled.TodosBox>
       </Styled.TodosWrapper>
     </Styled.TodoListWrapper>
   );

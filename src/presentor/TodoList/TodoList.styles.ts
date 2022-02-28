@@ -1,15 +1,21 @@
 import styled from '@emotion/styled';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 export const TodoListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex: 1;
   gap: 2em;
 `;
 
 export const TodoInputWrapper = styled.div``;
+
+export const TodosBox = styled.div`
+  max-height: 100%;
+  overflow-y: auto;
+`;
 
 export const TodoInputBoxWrapper = styled(Box)`
   width: 400px;
@@ -39,11 +45,4 @@ export const TodosWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2em;
-`;
-
-export const TodoTitle = styled.h3`
-  text-align: center;
-  font-size: 1.5em;
-  font-weight: bold;
-  text-transform: uppercase;
 `;

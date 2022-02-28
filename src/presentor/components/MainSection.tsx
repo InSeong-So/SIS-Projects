@@ -6,7 +6,8 @@ const StyledMainSectionWrapper = styled.section`
   justify-content: space-around;
   flex: 1;
   padding: 1em;
-  background: #eeeeee;
+  background: #f6f6f6;
+  gap: 2em;
 `;
 
 const MainSection: React.FC = ({ children }) => {
